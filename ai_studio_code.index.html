@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI PM Strategic Board 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030712;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --mint: #00ffa3;
+            --lavender: #bd93f9;
+            --blue: #00e5ff;
+            --pink: #ff79c6;
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0; padding: 40px;
+            background-image: 
+                radial-gradient(circle at 5% 5%, rgba(0, 255, 163, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 95% 95%, rgba(189, 147, 249, 0.04) 0%, transparent 40%);
+        }
+
+        /* --- Background Doodles --- */
+        .doodle { position: fixed; z-index: -1; opacity: 0.2; pointer-events: none; animation: float 25s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(40px, -50px) rotate(10deg); } }
+
+        header { text-align: center; margin-bottom: 50px; }
+        h1 { font-weight: 800; font-size: 2.5rem; letter-spacing: -1.5px; margin: 0; }
+        h1 span { color: var(--mint); }
+
+        /* --- Filters --- */
+        .filter-container {
+            display: flex; justify-content: center; gap: 12px; margin: 30px 0; flex-wrap: wrap;
+        }
+        .filter-select {
+            background: var(--glass); border: 1px solid var(--border); color: white;
+            padding: 10px 20px; border-radius: 50px; cursor: pointer;
+            backdrop-filter: blur(10px); font-size: 0.8rem; transition: 0.3s;
+        }
+        .filter-select:hover { border-color: var(--mint); background: rgba(0, 255, 163, 0.05); }
+
+        /* --- Sections --- */
+        .usage-section { margin-bottom: 70px; }
+        .usage-label {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 4px;
+            color: var(--lavender); margin-bottom: 25px; display: flex; align-items: center; gap: 15px; font-weight: 800;
+        }
+        .usage-label::after { content: ""; height: 1px; flex-grow: 1; background: var(--border); }
+
+        /* --- Grid & Cards --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .card {
+            background: var(--glass); border: 1px solid var(--border); border-radius: 20px;
+            padding: 24px; cursor: pointer; transition: 0.3s ease-out; position: relative;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--mint); background: rgba(255,255,255,0.06); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .card.hidden { display: none; }
+        .tool-name { font-size: 1.3rem; font-weight: 800; display: block; margin-bottom: 12px; }
+        
+        .status-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 15px; }
+        .pill { font-size: 0.6rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .p-mat { background: rgba(0, 229, 255, 0.1); color: var(--blue); }
+        .p-cost { background: rgba(255, 121, 198, 0.1); color: var(--pink); }
+        .p-act { background: rgba(0, 255, 163, 0.1); color: var(--mint); }
+
+        /* --- Modal --- */
+        #modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(20px);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-box {
+            background: #0f172a; border: 1px solid var(--border);
+            width: 90%; max-width: 600px; padding: 45px; border-radius: 35px;
+            position: relative; animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .close-btn { position: absolute; top: 25px; right: 25px; cursor: pointer; opacity: 0.6; font-size: 1.8rem; }
+        
+        .modal-body h2 { color: var(--mint); font-size: 2.2rem; margin: 0 0 20px 0; }
+        .detail-item { margin-top: 25px; font-size: 0.95rem; line-height: 1.7; }
+        .detail-item strong { color: var(--lavender); display: block; font-size: 0.75rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+
+        /* --- Risk Bar --- */
+        .risk-bar {
+            margin-top: 80px; padding: 30px; border-radius: 20px; border: 1px solid rgba(255, 121, 198, 0.2);
+            background: rgba(255, 121, 198, 0.02); text-align: center; color: var(--pink); font-size: 0.85rem; font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Doodles -->
+    <svg class="doodle" style="top:10%; left:5%; width:60px;" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--lavender)" stroke-width="2" stroke-dasharray="10 5"/></svg>
+    <svg class="doodle" style="bottom:10%; right:10%; width:100px;" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" fill="none" stroke="var(--mint)" stroke-width="2" rx="15" transform="rotate(25 50 50)"/></svg>
+    <svg class="doodle" style="top:45%; right:5%; width:50px;" viewBox="0 0 100 100"><path d="M50 10 L90 90 L10 90 Z" fill="none" stroke="var(--pink)" stroke-width="2"/></svg>
+
+    <header>
+        <h1>AI PM <span>STRATEGIC BOARD</span></h1>
+        <div class="filter-container">
+            <select class="filter-select" id="f-mat" onchange="filter()"><option value="all">Maturity: All</option><option value="Mature">Mature</option><option value="Growth">Growth</option><option value="Emerging">Emerging</option></select>
+            <select class="filter-select" id="f-cost" onchange="filter()"><option value="all">Cost: All</option><option value="High ROI">High ROI</option><option value="Premium">Premium</option></select>
+            <select class="filter-select" id="f-act" onchange="filter()"><option value="all">Action: All</option><option value="Adopt">Adopt</option><option value="Trial">Trial</option><option value="Monitor">Monitor</option></select>
+        </div>
+    </header>
+
+    <div id="board"></div>
+
+    <div class="risk-bar">
+        ⚠️ SYSTEMIC RISKS: Cybersecurity • Data Privacy • Legacy Integration • Expertise Gaps
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" onclick="closeModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeModal()">✕</span>
+            <div class="modal-body">
+                <h2 id="m-name">Tool Name</h2>
+                <div class="detail-item"><strong>Strategic Action</strong> <span id="m-act" class="pill p-act"></span></div>
+                <div class="detail-item"><strong>Usage Detail</strong> <div id="m-usage"></div></div>
+                <div class="detail-item"><strong>Mind-Map Features</strong> <div id="m-features"></div></div>
+                <div class="detail-item"><strong>Best For</strong> <div id="m-best"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tools = [
+            // STRATEGY & PLANNING
+            { group: "Strategy & Planning", name: "Productboard", mat: "Mature", cost: "Premium", act: "Adopt", features: ["AI insights analysis", "Hierarchy generation", "Standardized tracker"], usage: "Synthesizing massive user feedback into prioritized roadmaps.", best: "Mature teams with high volume feedback." },
+            { group: "Strategy & Planning", name: "Aha! Roadmap", mat: "Mature", cost: "Premium", act: "Adopt", features: ["Strategy-first planning", "Goal-oriented roadmaps", "Standardized insights"], usage: "Connecting executive vision to high-level product execution.", best: "Enterprise PMOs requiring strict alignment." },
+            { group: "Strategy & Planning", name: "Jira Product Discovery", mat: "Growth", cost: "High ROI", act: "Trial", features: ["Jira dev integration", "Prioritization matrices", "Idea capture"], usage: "Capturing and scoring ideas natively where dev work is managed.", best: "Atlassian-heavy agile teams." },
+            { group: "Strategy & Planning", name: "Slite Loop", mat: "Emerging", cost: "High ROI", act: "Monitor", features: ["Knowledge consolidation", "AI search history"], usage: "Turning disparate docs into an AI-searchable 'second brain'.", best: "Fast-moving documentation-heavy teams." },
+            { group: "Strategy & Planning", name: "Airfocus", mat: "Mature", cost: "High ROI", act: "Adopt", features: ["Modular roadmapping", "Priority scoring"], usage: "Scalable prioritization for various project management frameworks.", best: "Modular/Multi-product portfolios." },
+
+            // PROJECTS & WORKFLOW
+            { group: "Projects & Workflow", name: "ClickUp", mat: "Growth", cost: "High ROI", act: "Adopt", features: ["ClickUp Brain AI", "Predictive scheduling", "Auto-subtasks"], usage: "Automating routine tasks and status updates within the workspace.", best: "Teams wanting one app for everything." },
+            { group: "Projects & Workflow", name: "Notion", mat: "Mature", cost: "High ROI", act: "Adopt", features: ["Knowledge base AI", "PRD drafting assistant", "Auto-documenter"], usage: "Drafting PRDs and technical documentation from rough notes.", best: "Knowledge-sharing organizations." },
+            { group: "Projects & Workflow", name: "Asana", mat: "Mature", cost: "Premium", act: "Adopt", features: ["Workflow automation", "Performance insights", "Workload balancer"], usage: "Managing cross-team resources to prevent burnout.", best: "Complex operational workflows." },
+            { group: "Projects & Workflow", name: "Linear", mat: "Growth", cost: "High ROI", act: "Trial", features: ["Static analysis", "AI issue triage", "Dev-sync"], usage: "High-speed issue tracking and triage for software builders.", best: "Quality-obsessed software teams." },
+            { group: "Projects & Workflow", name: "Monday.com", mat: "Mature", cost: "Premium", act: "Adopt", features: ["Visual AI PM", "Automated board workflows"], usage: "Visualizing complex project statuses with AI triggers.", best: "Non-technical teams needing PM oversight." },
+            { group: "Projects & Workflow", name: "Wrike", mat: "Mature", cost: "Premium", act: "Adopt", features: ["Smart prioritization", "Resource AI management"], usage: "Enterprise project management with predictive analytics.", best: "Large-scale IT and creative teams." },
+
+            // USER RESEARCH
+            { group: "User Research & Discovery", name: "Dovetail", mat: "Mature", cost: "High ROI", act: "Adopt", features: ["Qualitative repo", "Transcript analysis", "Insight clusters"], usage: "Extracting insights from video calls and research interviews.", best: "UX/Product Discovery leads." },
+            { group: "User Research & Discovery", name: "Maze", mat: "Growth", cost: "High ROI", act: "Trial", features: ["Insight generation", "Automated usability reports"], usage: "Rapid testing of prototypes with auto-analysis of friction.", best: "Teams iterating on UI/UX high-fidelity mockups." },
+            { group: "User Research & Discovery", name: "Interviewer AI", mat: "Emerging", cost: "High ROI", act: "Monitor", features: ["Conversation intelligence", "Emotional cue detection"], usage: "Analyzing interview sentiment and bias in discovery.", best: "Qualitative research perfectionists." },
+            { group: "User Research & Discovery", name: "Sprig", mat: "Growth", cost: "Premium", act: "Trial", features: ["In-product targeting", "Channelled feedback loops"], usage: "In-product surveys and unmoderated user interviews.", best: "Product-led growth (PLG) teams." },
+            { group: "User Research & Discovery", name: "Pendo", mat: "Mature", cost: "Premium", act: "Adopt", features: ["In-app analytics", "Behavior mapping"], usage: "Guiding users and measuring feature usage via in-app cues.", best: "Onboarding and retention focused PMs." },
+            { group: "User Research & Discovery", name: "Amplitude", mat: "Mature", cost: "Premium", act: "Adopt", features: ["Digital optimization", "Cohort behavior prediction"], usage: "Predicting behavioral cohorts likely to convert or churn.", best: "Data-driven B2C/SaaS products." },
+            { group: "User Research & Discovery", name: "Mixpanel", mat: "Mature", cost: "Premium", act: "Adopt", features: ["Trend modeling", "Anomaly detection"], usage: "Tracking event-based analytics to optimize funnel flow.", best: "Conversion Rate Optimization (CRO)." },
+            { group: "User Research & Discovery", name: "Heap", mat: "Mature", cost: "Premium", act: "Adopt", features: ["Auto-capture data", "Funnel analysis"], usage: "Measuring every click without manual tagging.", best: "Teams needing retro-active data capture." },
+
+            // COMMUNICATION
+            { group: "Communication & Productivity", name: "Otter.ai", mat: "Mature", cost: "High ROI", act: "Adopt", features: ["Real-time meeting transcripts", "AI action items"], usage: "Recording and documenting product meetings in real-time.", best: "Stakeholder-heavy product leaders." },
+            { group: "Communication & Productivity", name: "Fireflies", mat: "Mature", cost: "High ROI", act: "Adopt", features: ["AI meeting assistant", "Searchable transcripts"], usage: "Transcribing and summarizing cross-functional syncs.", best: "Sales and Product sync teams." },
+            { group: "Communication & Productivity", name: "Fellow", mat: "Growth", cost: "High ROI", act: "Trial", features: ["Agenda generator", "Feedback AI"], usage: "Building structured meeting agendas and feedback loops.", best: "Internal team management." },
+            { group: "Communication & Productivity", name: "ChatGPT / Claude", mat: "Mature", cost: "High ROI", act: "Adopt", features: ["PRD brainstorming", "Operational drafting"], usage: "The core 'Swiss Army Knife' for drafting and strategy.", best: "All PM levels for diverse tasks." },
+            { group: "Communication & Productivity", name: "Jasper", mat: "Growth", cost: "Premium", act: "Trial", features: ["Product copywriting", "Brand voice AI"], usage: "Writing launch announcements and marketing copy.", best: "Product Marketing Managers (PMM)." },
+            { group: "Communication & Productivity", name: "Grammarly", mat: "Mature", cost: "High ROI", act: "Adopt", features: ["Tone detection", "AI drafting assistance"], usage: "Polishing specs and executive summaries.", best: "Standardizing team communication quality." },
+            { group: "Communication & Productivity", name: "Motion", mat: "Growth", cost: "High ROI", act: "Trial", features: ["AI calendar scheduling", "Auto-prioritization"], usage: "Dynamically rebuilding your calendar as priorities shift.", best: "Individual PMs with chaotic schedules." },
+            { group: "Communication & Productivity", name: "Reclaim.ai", mat: "Growth", cost: "High ROI", act: "Trial", features: ["Habit/Task scheduling"], usage: "Protecting 'Focus Time' from intrusive meetings.", best: "Teams optimizing for deep work blocks." },
+            { group: "Communication & Productivity", name: "Clockwise", mat: "Mature", cost: "High ROI", act: "Adopt", features: ["Smart team scheduling", "Focus time creation"], usage: "Optimizing calendars across large engineering teams.", best: "Organization-level calendar hygiene." },
+
+            // DESIGN
+            { group: "Prototyping & Design", name: "Uizard", mat: "Growth", cost: "High ROI", act: "Trial", features: ["Wireframe generator", "Sketch-to-UI"], usage: "Rapidly prototyping wireframes from simple sketches.", best: "Early-stage discovery phases." },
+            { group: "Prototyping & Design", name: "Galileo AI", mat: "Emerging", cost: "High ROI", act: "Monitor", features: ["AI UI generation", "Text-to-Figma"], usage: "Generating high-fidelity UI from text prompts.", best: "Rapid conceptualization." },
+            { group: "Prototyping & Design", name: "Figma (AI)", mat: "Mature", cost: "Premium", act: "Adopt", features: ["Smart layouting", "Component generation"], usage: "The standard for collaborative design, now with AI speed.", best: "Full product design cycles." }
+        ];
+
+        function render() {
+            const board = document.getElementById('board');
+            const groups = [...new Set(tools.map(t => t.group))];
+            board.innerHTML = groups.map(g => `
+                <section class="usage-section">
+                    <div class="usage-label">${g}</div>
+                    <div class="grid">${tools.filter(t => t.group === g).map(t => `
+                        <div class="card" data-mat="${t.mat}" data-cost="${t.cost}" data-act="${t.act}" onclick='openModal(${JSON.stringify(t)})'>
+                            <span class="tool-name">${t.name}</span>
+                            <div class="status-row">
+                                <span class="pill p-mat">${t.mat}</span>
+                                <span class="pill p-act">${t.act}</span>
+                            </div>
+                        </div>`).join('')}
+                    </div>
+                </section>`).join('');
+        }
+
+        function filter() {
+            const m = document.getElementById('f-mat').value;
+            const c = document.getElementById('f-cost').value;
+            const a = document.getElementById('f-act').value;
+            document.querySelectorAll('.card').forEach(card => {
+                const matchM = m === 'all' || card.dataset.mat === m;
+                const matchC = c === 'all' || card.dataset.cost === c;
+                const matchA = a === 'all' || card.dataset.act === a;
+                card.classList.toggle('hidden', !(matchM && matchC && matchA));
+            });
+        }
+
+        function openModal(t) {
+            document.getElementById('m-name').innerText = t.name;
+            document.getElementById('m-act').innerText = t.act;
+            document.getElementById('m-usage').innerText = t.usage;
+            document.getElementById('m-best').innerText = t.best;
+            document.getElementById('m-features').innerHTML = t.features.map(f => `<div>• ${f}</div>`).join('');
+            document.getElementById('modal').style.display = 'flex';
+        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+        render();
+    </script>
+</body>
+</html>
